@@ -453,9 +453,8 @@ def json_network_composite_ns(descriptor, ns_id=None):
                                          "ns_id": nested_id['nested_instance_id'],
                                          "federated_domain": nested_id['domain']})
     else:
-        # TODO problem with composite
+        # TODO intrinsic issue with composite, review the dbs
         pass
-    # print('list_of_nested_ns_id: {}'.format(list_of_nested_ns_id))
     nsd_response = descriptor['nsd:nsd-catalog']['nsd-composite'][0]
     # create a nx.Graph
     g = nx.Graph()
@@ -463,7 +462,6 @@ def json_network_composite_ns(descriptor, ns_id=None):
     nsd_array = nsd_response['constituent-nsd']
     # for each constituent-nsd of composite remapping of vl names (if necessary) and create the graph
     for nsd_nested_item in nsd_array:
-        # print(nsd_nested_item)
         ns_ir_net_map = nsir_db.get_network_mapping(ns_id)
         ns_ir_rename_map = nsir_db.get_renaming_network_mapping(ns_id)
         # print(ns_ir_net_map, ns_ir_rename_map)
@@ -483,7 +481,8 @@ def json_network_composite_ns(descriptor, ns_id=None):
                     for key_vl, value_vl in vl.items():
                         mapping[key_vl] = value_vl
         else:
-            print("TODO")  # TODO
+            # TODO evaluate this possibility, maybe an intrinsic issue of dbs
+            print("TODO")
             pass
         # print('Network mapping {}:'.format(mapping))
         nsd_json = nsd_db.get_nsd_json(nsd_nested_item['nested-nsd-id'])
@@ -495,13 +494,14 @@ def json_network_composite_ns(descriptor, ns_id=None):
         level = "{}_{}_{}".format(nsd_nested_item['nested-nsd-id'],
                                   nsd_nested_item['nested-ns-df-id'],
                                   nsd_nested_item['nested-ns-inst-level-id'])
+        # TODO verify that level should be the same in below case
+        # level = nsd_nested_item['nsd-id-ref']
         ns_network = {}
         # retrieve the json of composite nsd (with correct df and instantiation level)
         list_osm_json, default_index = ifa014_conversion(nsd_json)
         for element in list_osm_json:
             if element['nsd:nsd-catalog']['nsd'][0]['id'] == level:
                 ns_network = element
-
         # creating graph of nested NS
         nsd_response = ns_network['nsd:nsd-catalog']['nsd'][0]
         # renaming involved network
@@ -514,8 +514,9 @@ def json_network_composite_ns(descriptor, ns_id=None):
         # dealing with the 'constituent-vnfd'
         vnfd_array = nsd_response['constituent-vnfd']
         for nsd_item in vnfd_array:
-            # current_node_id = g.number_of_nodes()
-            current_node_id = selected_node(g, nsd_item['vnfd-id-ref'])
+            # TODO verify the correct behaviour among the two following lines code
+            current_node_id = g.number_of_nodes()
+            # current_node_id = selected_node(g, nsd_item['vnfd-id-ref'])
             # add a node in the nx.Graph for every vnfd
             g.add_node(current_node_id,
                        features="VNFD: {}".format(nsd_item['vnfd-id-ref']),

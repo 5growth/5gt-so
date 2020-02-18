@@ -566,11 +566,10 @@ def ns_view(ns_id):
     nsd_json = nsd_db.get_nsd_json(nsd_id)
     flavour_id = ns_db.get_ns_flavour_id(ns_id)
     ns_instantiation_level_id = ns_db.get_ns_instantiation_level_id(ns_id)
-    # print("Fla/inst_level: {} {}".format(flavour_id, ns_instantiation_level_id))
-    placement_info = None
-    # print("Placement_info", placement_info)
+    # print("Flavor /instantiation level of ns_id to be visualize: {} {}".format(flavour_id, ns_instantiation_level_id))
     ns_network = {}
     level = "{}_{}_{}".format(nsd_id, flavour_id, ns_instantiation_level_id)
+    # print("Total Level: {}".format(level))
     if domain == 'local':
         html_page = 'ns_view.html'
         placement_info = nsir_db.get_placement_info(ns_id)
