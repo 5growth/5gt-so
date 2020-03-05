@@ -936,12 +936,12 @@ def connecting_nested_federated_local_services(nsId, nsd_json, network_mapping, 
             # towards the federated one, with the vlan swapping
             # It is passed, the globla nsId, the local nsId in the provider domain, how vnf's connect, the characterisitic of the link and the vlan  
             log_queue.put(["INFO", "*****Time measure: CROOE CROOE starts requesting connections from consumer to provider"])                 
-            set_federated_insternested_connections_local(nsId, pair['pair'][0], connected_vnfs_l, link_characteristics, pair['nsId'][1][1], swap_vlan, nested_ns_instance)
+            set_federated_internested_connections_local(nsId, pair['pair'][0], connected_vnfs_l, link_characteristics, pair['nsId'][1][1], swap_vlan, nested_ns_instance)
             log_queue.put(["INFO", "*****Time measure: CROOE CROOE finish requesting connections from consumer to provider"]) 
     log_queue.put(["INFO", "*****Time measure: CROOE CROOE finishing connecting nested local with federated services"])        
     return
 
-def set_federated_insternested_connections_local(nsId, nsdId, connected_vnfs, link_characteristics, domain, swap_vlan, nested_ns_instance):
+def set_federated_internested_connections_local(nsId, nsdId, connected_vnfs, link_characteristics, domain, swap_vlan, nested_ns_instance):
     """
     This function instantiate the local part of the internested links, performing the swap change
     Parameters

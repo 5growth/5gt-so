@@ -302,7 +302,10 @@ def get_ns_status(nsId):
         Status of the Network Service Instance.
     """
     ns = ns_coll.find_one({"nsId": nsId})
-    return ns["status"]
+    if ns is not None and "status" in ns:
+        return ns["status"]
+    else:
+        return None
 
 def get_ns_record(nsId):
     """
@@ -344,7 +347,10 @@ def get_ns_il(nsId):
         Instantiation Level of the Network Service Instance.
     """
     ns = ns_coll.find_one({"nsId": nsId})
-    return ns["nsInstantiationLevelId"]
+    if ns is not None and "nsInstantiationLevelId" in ns:
+        return ns["nsInstantiationLevelId"]
+    else:
+        return None
 
 def set_ns_il(nsId, instantiation_level):
     """
